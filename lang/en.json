@@ -1,0 +1,7 @@
+{
+    "PPRN.Enabled.Name": "Enable Player Pronouns",
+    "PPRN.Enabled.Hint": "This allows you to manually add your own pronoun on the player configuration.",
+    "PPRN.ShowPlayerList.Name": "Show Pronoun in Player List",
+    "PPRN.ShowPlayerList.Hint": "This will add the entered pronoun after the player name, but before the character name in the Player List",
+    "PPRN.Heading": "Player Pronoun"
+}
