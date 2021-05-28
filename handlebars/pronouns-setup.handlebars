@@ -1,0 +1,51 @@
+<style>
+    .pronouns-setup-container {
+        display: grid;
+        border-bottom: 1px solid rgb(116, 0, 0);
+        margin-bottom: 5px;
+        align-items: center;
+    }
+
+    .pronouns-input {
+        grid-row: 1;
+        grid-column: 1;
+        width: 170px;
+    }
+
+    .pronouns-del {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        width: 40px;
+    }
+</style>
+
+<h2>{{localize 'PPRN.PronounsSetup.Heading'}}</h2>
+
+<div class="form-description">
+    <form id="pronouns-setup" autocomplete="off" onsubmit="event.preventDefault();">
+        <ol>
+            {{#each setupConfig.pronounsList as |pronouns|}}
+            <li>
+                <div class="pronouns-setup-container">
+                    <input class="pronouns-input" value="{{pronouns}}" name="pronouns-{{@index}}" type="text" id="pronouns-{{@index}}" placeholder="{{localize 'PPRN.PronounsSetup.Input'}}">
+                    
+                    <button class="pronouns-del" id="pronouns-del-{{@index}}" name="pronouns-del-{{@index}}" title="{{localize 'PPRN.PronounsSetup.Delete'}}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+        <button id="pronouns-setup-add" name="pronouns-setup-add" title="{{localize 'PPRN.PronounsSetup.Add'}}">
+            <i class="fas fa-plus"></i> {{localize 'PPRN.PronounsSetup.Add'}}
+        </button>         
+        <hr>
+        
+        <footer>
+            <div class="setup-feedback" id="setup-feedback" style="color: red"></div>
+            <button id="pronouns-setup-submit" class="settings-button" name="submit" type="submit">{{localize 'PPRN.PronounsSetup.Save'}}</button>
+        </footer>
+    </form>
+</div>
+
