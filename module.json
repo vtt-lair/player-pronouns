@@ -2,7 +2,7 @@
     "name": "player-pronouns",
     "title": "Player Pronouns",
     "description": "Adds a section to the player configuration that allows you to add your pronouns.",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "authors": [
       {
         "name": "VTT Lair",
