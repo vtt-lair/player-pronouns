@@ -107,12 +107,6 @@ class PronounsSetup extends FormApplication {
     }
 }
 
-class PlayerListWithPronoun extends PlayerList {
-    forceRender() {
-        this.render(true);
-    }
-}
-
 const PlayerPronouns = {
     // Player Pronoun Renders
     getPronoun(user) {
@@ -189,6 +183,10 @@ const PlayerPronouns = {
         }                
     },
 
+    renderChatMessage(data) {
+        console.log(data);
+    },
+
     grabSavedSettings() {
         pronounsEnabled = game.settings.get("player-pronouns", "enabled");
         showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
@@ -201,7 +199,8 @@ const PlayerPronouns = {
     hookupEvents() {
         Hooks.on("renderPlayerConfig", PlayerPronouns.onConfigRender);
         Hooks.on("closePlayerConfig", PlayerPronouns.onConfigUpdate);     
-        Hooks.on("renderPlayerList", PlayerPronouns.renderPlayerList);   
+        Hooks.on("renderPlayerList", PlayerPronouns.renderPlayerList);
+        Hooks.on("renderChatMessage", PlayerPronouns.renderChatMessage);
     }
 }
 
@@ -213,8 +212,8 @@ function playerPronounsReady() {
     PlayerPronouns.grabSavedSettings();
     PlayerPronouns.hookupEvents();
 
-    const playerList = new PlayerListWithPronoun();
-    playerList.forceRender();
+    const playerList = new PlayerList();
+    playerList.render(true);
 };
 
 function registerPlayerPronounsSettings() {
