@@ -3,5 +3,11 @@
     "PPRN.Enabled.Hint": "This allows you to manually add your own pronouns on the player configuration.",
     "PPRN.ShowPlayerList.Name": "Show Pronoun in Player List",
     "PPRN.ShowPlayerList.Hint": "This will add the entered pronouns after the player name, but before the character name in the Player List",
-    "PPRN.Label": "Player Pronoun"
+    "PPRN.Label": "Player Pronoun",
+    "PPRN.PronounsSetup.Heading": "Pronouns Setup",
+    "PPRN.PronounsSetup.Input": "Enter pronouns",
+    "PPRN.PronounsSetup.Delete": "Delete",
+    "PPRN.PronounsSetup.Add": "Add Pronouns",
+    "PPRN.PronounsSetup.Save": "Save",
+    "PPRN.PronounsSetup.Hint": "Setup a list of pronouns."
 }
