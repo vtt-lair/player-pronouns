@@ -14,6 +14,5 @@ This allows you to manually add your own pronouns on the player configuration.
 This will add the entered pronouns after the player name, but before the character name in the Player List
 
 ## Future Development
-* Add a setup menu to add pronouns that can be selected from
 * Show pronouns when chatting as player
 * Implement some form of pronouns usage for tokens
