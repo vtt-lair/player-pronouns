@@ -183,10 +183,6 @@ const PlayerPronouns = {
         }                
     },
 
-    renderChatMessage(data) {
-        console.log(data);
-    },
-
     grabSavedSettings() {
         pronounsEnabled = game.settings.get("player-pronouns", "enabled");
         showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
@@ -200,7 +196,6 @@ const PlayerPronouns = {
         Hooks.on("renderPlayerConfig", PlayerPronouns.onConfigRender);
         Hooks.on("closePlayerConfig", PlayerPronouns.onConfigUpdate);     
         Hooks.on("renderPlayerList", PlayerPronouns.renderPlayerList);
-        Hooks.on("renderChatMessage", PlayerPronouns.renderChatMessage);
     }
 }
 
