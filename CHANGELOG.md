@@ -1,3 +1,6 @@
+# 0.1.3
+
+* Fix module for 0.8.x
 # 0.1.2
 
 * Add functionality to specify a list of pronouns via the setup menu
