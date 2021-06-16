@@ -122,7 +122,7 @@ const PlayerPronouns = {
         PlayerPronouns.grabSavedSettings();
 
         if (pronounsEnabled) {
-            const user = game.users.get(config.user.data._id);
+            const user = game.users.get(config.object.data._id);
             const pronoun = PlayerPronouns.getPronoun(user);
             const playerColourGroup = html.find('.form-group').eq(1);
 
@@ -156,7 +156,7 @@ const PlayerPronouns = {
                 pronoun = html.find("input[name = 'player-pronouns']")[0].value;
             }            
 
-            const user = game.users.get(config.user.data._id);
+            const user = game.users.get(config.object.data._id);
             user.setFlag('player-pronouns', 'pronoun', pronoun);
         }        
     },
@@ -171,7 +171,7 @@ const PlayerPronouns = {
                 let playerCharacterName = player.innerText;
                 const playerName = playerCharacterName.substring(0, playerCharacterName.indexOf('[')).trim();
 
-                const userId = game.users.find((x) => x.data.name === playerName).id;
+                const userId = game.users.find((x) => x.data.name === playerName)?.id;
                 const user = game.users.get(userId);
                 const pronoun = PlayerPronouns.getPronoun(user);
 
@@ -193,8 +193,8 @@ const PlayerPronouns = {
     },
 
     hookupEvents() {
-        Hooks.on("renderPlayerConfig", PlayerPronouns.onConfigRender);
-        Hooks.on("closePlayerConfig", PlayerPronouns.onConfigUpdate);     
+        Hooks.on("renderUserConfig", PlayerPronouns.onConfigRender);
+        Hooks.on("closeUserConfig", PlayerPronouns.onConfigUpdate);     
         Hooks.on("renderPlayerList", PlayerPronouns.renderPlayerList);
     }
 }
