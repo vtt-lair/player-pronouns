@@ -2,7 +2,7 @@
     "name": "player-pronouns",
     "title": "Player Pronouns",
     "description": "Adds a section to the player configuration that allows you to add your pronouns.",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "authors": [
       {
         "name": "VTT Lair",
@@ -24,7 +24,7 @@
     ],
     "url": "https://github.com/vtt-lair/player-pronouns",
     "manifest": "https://github.com/vtt-lair/player-pronouns/releases/latest/download/module.json",
-    "download": "https://github.com/vtt-lair/player-pronouns/releases/download/v0.1.2/player-pronouns-v0.1.2.zip",
-    "minimumCoreVersion": "0.7.9",
-    "compatibleCoreVersion": "0.7.10"
+    "download": "https://github.com/vtt-lair/player-pronouns/releases/download/v0.1.2/player-pronouns-v0.1.3.zip",
+    "minimumCoreVersion": "0.8.6",
+    "compatibleCoreVersion": "0.8.7"
 }
