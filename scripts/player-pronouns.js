@@ -185,7 +185,7 @@ const PlayerPronouns = {
             }            
 
             const user = game.users.get(config.object.data._id);
-            user.setFlag('player-pronouns', 'pronoun', pronoun);
+            user.update({'flags.player-pronouns.pronoun': pronoun});            
         }
 
         const hasClaimedCharacter = html.find("button[name='release']");
@@ -198,13 +198,13 @@ const PlayerPronouns = {
             }            
 
             const user = game.users.get(config.object.data._id);
-            const character = user.character;
-            character.setFlag('player-pronouns', 'character-pronoun', pronoun);
-            character.update();
-
+            const character = game.actors.get(user.data.character);
+            let data = {'flags.player-pronouns.character-pronoun': pronoun}
+            
             if (saveToGender) {
-                character.update({'data.details.gender': pronoun});
+                data['data.details.gender'] = pronoun;
             }
+            character.update(data);
         }
     },
 
@@ -220,7 +220,7 @@ const PlayerPronouns = {
             const userId = game.users.find((x) => x.data.name === playerName)?.id;
             const user = game.users.get(userId);
             let pronoun = `(${PlayerPronouns.getPronoun(user, 'pronoun')})`;
-            let characterPronoun = (user.isGM) ? "" : `(${PlayerPronouns.getPronoun(user.character, 'character-pronoun')})`;
+            let characterPronoun = (user.isGM) ? "" : `(${PlayerPronouns.getPronoun(game.actors.get(user.data.character), 'character-pronoun')})`;
             const charName = (user.isGM) ? "GM" : user.charname;
 
             pronoun = (!pronoun || pronoun === "( )") ? "" : pronoun;
