@@ -13,6 +13,13 @@ const defaultPronouns = [
     'They/Them',
 ]
 
+const knownGenderSystems = [
+    'dnd5eJP',
+    'dnd5e',
+    'sw5e',
+    'pf2e'
+];
+
 class PronounsSetup extends FormApplication {
     pronounsList = {};
     clickEvent = false;
@@ -111,6 +118,8 @@ class PronounsSetup extends FormApplication {
 }
 
 const PlayerPronouns = {
+    genderField = null,
+
     // Player Pronoun Renders
     getPronoun(obj, type) {
         if (!obj) {
@@ -261,6 +270,24 @@ const PlayerPronouns = {
         Hooks.on("renderUserConfig", PlayerPronouns.onConfigRender);
         Hooks.on("closeUserConfig", PlayerPronouns.onConfigUpdate);     
         Hooks.on("renderPlayerList", PlayerPronouns.renderPlayerList);
+    },
+
+    setupGenderVariable() {
+        switch (game.system.id) {
+            case 'dnd5eJP':
+            case 'dnd5e':
+            case 'sw5e':
+                PlayerPronouns.genderField = 'data.details.gender';
+                break;
+
+            case 'pf2e':
+                PlayerPronouns.genderField = 'data.details.gender.value';
+                break;
+
+            default:
+                PlayerPronouns.genderField = 'data.details.gender';
+
+        }
     }
 }
 
@@ -330,14 +357,16 @@ function registerPlayerPronounsSettings() {
         config: true,
     });
 
-    game.settings.register("player-pronouns", "saveToGender", {
-        name: game.i18n.localize("PPRN.SavePronounToGenderField.Name"),
-        hint: game.i18n.localize("PPRN.SavePronounToGenderField.Hint"),
-        scope: "world",
-        type: Boolean,
-        default: true,
-        config: true,
-    });
+    if (knownGenderSystems.includes(game.system.id)) {
+        game.settings.register("player-pronouns", "saveToGender", {
+            name: game.i18n.localize("PPRN.SavePronounToGenderField.Name"),
+            hint: game.i18n.localize("PPRN.SavePronounToGenderField.Hint"),
+            scope: "world",
+            type: Boolean,
+            default: true,
+            config: true,
+        });
+    }    
 }
 
 Hooks.once("init", playerPronounsInit);
