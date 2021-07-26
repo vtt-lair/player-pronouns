@@ -1,3 +1,9 @@
+# 0.1.4
+
+* Add functionality to select pronouns for a selected character in your player configuration
+* Add functionality to display character pronouns on the player list, next to the character name
+* Add functionality to save the pronoun to the actor's gender field. This has been tested on 5e systems and PF2e.
+
 # 0.1.3
 
 * Fix module for 0.8.x

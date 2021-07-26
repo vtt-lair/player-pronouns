@@ -10,9 +10,17 @@ Add the functionality to manually set a player's pronouns via the Player Configu
 ### Enable Player Pronouns
 This allows you to manually add your own pronouns on the player configuration.
 
-### Show Pronoun in Player List
+### Show Pronouns in Player List
 This will add the entered pronouns after the player name, but before the character name in the Player List
+
+### Enable Character Pronouns
+This allows you to manually add your own pronouns on the player configuration for a selected character.
+
+### Show Pronouns in Player List
+This will add the entered pronouns after the character name.
+
+### Save Pronouns to Gender Field
+This will save the selected character pronoun to the Gender of the actor. This has been confirmed to work on 5e and PF2e systems. If you need it on your system and it doesn't currently save, please load an issue.
 
 ## Future Development
 * Show pronouns when chatting as player
-* Implement some form of pronouns usage for tokens
