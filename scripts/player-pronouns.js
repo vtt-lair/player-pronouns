@@ -4,6 +4,7 @@ let characterPronounsEnabled = false;
 let showCharacterPronoun = false;
 let saveToGender = false;
 let listOfPronouns = [];
+let systemDefinedGenderField = '';
 
 const defaultPronouns = [
     'She/Her',
@@ -118,8 +119,6 @@ class PronounsSetup extends FormApplication {
 }
 
 const PlayerPronouns = {
-    genderField = null,
-
     // Player Pronoun Renders
     getPronoun(obj, type) {
         if (!obj) {
@@ -211,7 +210,7 @@ const PlayerPronouns = {
             let data = {'flags.player-pronouns.character-pronoun': pronoun}
             
             if (saveToGender) {
-                data['data.details.gender'] = pronoun;
+                data[systemDefinedGenderField] = pronoun;
             }
             character.update(data);
         }
@@ -232,8 +231,8 @@ const PlayerPronouns = {
             let characterPronoun = (user.isGM) ? "" : `(${PlayerPronouns.getPronoun(game.actors.get(user.data.character), 'character-pronoun')})`;
             const charName = (user.isGM) ? "GM" : user.charname;
 
-            pronoun = (!pronoun || pronoun === "( )") ? "" : pronoun;
-            characterPronoun = (!characterPronoun || characterPronoun === "( )") ? "" : characterPronoun;
+            pronoun = (!pronoun || pronoun === "()" || pronoun === "( )") ? "" : pronoun;
+            characterPronoun = (!characterPronoun || characterPronoun === "()" || characterPronoun === "( )") ? "" : characterPronoun;
 
             if (!pronounsEnabled || (pronounsEnabled && !showPlayerList)) {
                 pronoun = "";
@@ -277,16 +276,15 @@ const PlayerPronouns = {
             case 'dnd5eJP':
             case 'dnd5e':
             case 'sw5e':
-                PlayerPronouns.genderField = 'data.details.gender';
+                systemDefinedGenderField = 'data.details.gender';
                 break;
 
             case 'pf2e':
-                PlayerPronouns.genderField = 'data.details.gender.value';
+                systemDefinedGenderField = 'data.details.gender.value';
                 break;
 
             default:
-                PlayerPronouns.genderField = 'data.details.gender';
-
+                systemDefinedGenderField = 'data.details.gender';
         }
     }
 }
@@ -298,6 +296,7 @@ function playerPronounsInit() {
 function playerPronounsReady() {
     PlayerPronouns.grabSavedSettings();
     PlayerPronouns.hookupEvents();
+    PlayerPronouns.setupGenderVariable();
 
     const playerList = new PlayerList();
     playerList.render(true);
