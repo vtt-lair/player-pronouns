@@ -257,7 +257,10 @@ const PlayerPronouns = {
         showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
         characterPronounsEnabled = game.settings.get("player-pronouns", "characterEnabled");
         showCharacterPronoun = game.settings.get("player-pronouns", "showCharacterPronoun");
-        saveToGender = game.settings.get("player-pronouns", "saveToGender");
+
+        if (knownGenderSystems.includes(game.system.id)) {
+            saveToGender = game.settings.get("player-pronouns", "saveToGender");
+        }
 
         listOfPronouns = game.settings.get("player-pronouns", "pronounsList");
         if (listOfPronouns?.length === 1) {
@@ -294,9 +297,9 @@ function playerPronounsInit() {
 };
 
 function playerPronounsReady() {
-    PlayerPronouns.grabSavedSettings();
-    PlayerPronouns.hookupEvents();
     PlayerPronouns.setupGenderVariable();
+    PlayerPronouns.grabSavedSettings();
+    PlayerPronouns.hookupEvents();    
 
     const playerList = new PlayerList();
     playerList.render(true);
