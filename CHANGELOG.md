@@ -1,3 +1,6 @@
+# 0.1.5
+
+* Fix an issue where the "Save to gender flag" is trying to be accessed on unsupported game systems
 # 0.1.4
 
 * Add functionality to select pronouns for a selected character in your player configuration
