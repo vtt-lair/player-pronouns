@@ -8,7 +8,7 @@
     "PPRN.ShowCharacterPronoun.Name": "Show character pronouns in Player List",
     "PPRN.ShowCharacterPronoun.Hint": "This will add the entered pronouns after the character name in the Player List",
     "PPRN.SavePronounToGenderField.Name": "Save the selected character pronouns to the gender field",
-    "PPRN.SavePronounToGenderField.Hint": "This will save the selected character pronouns to the gender field on the actor",
+    "PPRN.SavePronounToGenderField.Hint": "This will save the selected character pronouns to the gender field on the actor. This might not save to the correct field on your actor depending on the game system. Please inform me if it's not working for you specific system.",
     "PPRN.Label": "Player Pronouns",
     "PPRN.CharacterLabel": "Pronouns",
     "PPRN.PronounsSetup.Heading": "Pronouns Setup",
