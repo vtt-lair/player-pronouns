@@ -1,3 +1,7 @@
+# 0.1.6
+
+* Enable gender flag so use a generic gender field and if it doesn't save the gender to correct field for a system, handle it case by case.
+
 # 0.1.5
 
 * Fix an issue where the "Save to gender flag" is trying to be accessed on unsupported game systems
