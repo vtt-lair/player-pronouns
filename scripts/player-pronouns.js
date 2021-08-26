@@ -14,13 +14,6 @@ const defaultPronouns = [
     'They/Them',
 ]
 
-const knownGenderSystems = [
-    'dnd5eJP',
-    'dnd5e',
-    'sw5e',
-    'pf2e'
-];
-
 class PronounsSetup extends FormApplication {
     pronounsList = {};
     clickEvent = false;
@@ -257,10 +250,7 @@ const PlayerPronouns = {
         showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
         characterPronounsEnabled = game.settings.get("player-pronouns", "characterEnabled");
         showCharacterPronoun = game.settings.get("player-pronouns", "showCharacterPronoun");
-
-        if (knownGenderSystems.includes(game.system.id)) {
-            saveToGender = game.settings.get("player-pronouns", "saveToGender");
-        }
+        saveToGender = game.settings.get("player-pronouns", "saveToGender");
 
         listOfPronouns = game.settings.get("player-pronouns", "pronounsList");
         if (listOfPronouns?.length === 1) {
@@ -359,16 +349,14 @@ function registerPlayerPronounsSettings() {
         config: true,
     });
 
-    if (knownGenderSystems.includes(game.system.id)) {
-        game.settings.register("player-pronouns", "saveToGender", {
-            name: game.i18n.localize("PPRN.SavePronounToGenderField.Name"),
-            hint: game.i18n.localize("PPRN.SavePronounToGenderField.Hint"),
-            scope: "world",
-            type: Boolean,
-            default: true,
-            config: true,
-        });
-    }    
+    game.settings.register("player-pronouns", "saveToGender", {
+        name: game.i18n.localize("PPRN.SavePronounToGenderField.Name"),
+        hint: game.i18n.localize("PPRN.SavePronounToGenderField.Hint"),
+        scope: "world",
+        type: Boolean,
+        default: true,
+        config: true,
+    });  
 }
 
 Hooks.once("init", playerPronounsInit);
