@@ -164,8 +164,11 @@ const PlayerPronouns = {
             const pronoun = PlayerPronouns.getPronoun(character, 'character-pronoun');
             let input = PlayerPronouns.renderSelect('character-pronouns', pronoun);
 
-            const playerColourGroup = html.find('.entity-name').eq(0);
-            playerColourGroup.after($(`
+            let playerGroup = html.find('.entity-name').eq(0);
+            if (!playerGroup?.length) {
+                playerGroup = html.find('.document-name').eq(0);
+            }
+            playerGroup.after($(`
                 <div class="form-group character-pronoun">
                     <label>${game.i18n.localize("PPRN.CharacterLabel")}</label>
                     ${input}
