@@ -13,11 +13,17 @@ This allows you to manually add your own pronouns on the player configuration.
 ### Show Pronouns in Player List
 This will add the entered pronouns after the player name, but before the character name in the Player List
 
+### Show pronouns next to player name in chat
+This will add the entered pronouns after the player name in the chatbox
+
 ### Enable Character Pronouns
 This allows you to manually add your own pronouns on the player configuration for a selected character.
 
 ### Show Pronouns in Player List
 This will add the entered pronouns after the character name.
+
+### Show Character Pronouns after character name in chat
+This will add the entered pronouns after the character name in the chatbox
 
 ### Save Pronouns to Gender Field
 This will save the selected character pronoun to the Gender of the actor. This has been confirmed to work on most systems. If it doesn't save to the gender field on your system, please load an issue.
