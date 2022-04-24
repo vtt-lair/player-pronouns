@@ -3,6 +3,8 @@ let pronounsEnabled = false;
 let characterPronounsEnabled = false;
 let showCharacterPronoun = false;
 let saveToGender = false;
+let showPlayerPronounChat = false;
+let showCharacterPronounChat = false;
 let listOfPronouns = [];
 let systemDefinedGenderField = '';
 
@@ -248,12 +250,32 @@ const PlayerPronouns = {
         }
     },
 
+    renderChatMessage(chatMessage, html) {
+        const sender = html?.[0]?.querySelector(`.message-sender`).innerText;
+        let pronoun = '';
+
+        if (sender) {
+            if (chatMessage?.data?.speaker?.actor && showCharacterPronounChat) {
+                pronoun = `${PlayerPronouns.getPronoun(game.actors.get(chatMessage?.user?.data?.character), 'character-pronoun')}`.trim();
+            } else if (showPlayerPronounChat) {
+                pronoun = `${PlayerPronouns.getPronoun(chatMessage?.user, 'pronoun')}`.trim();
+            }
+            
+            if (pronoun) {
+                pronoun = ` (${pronoun})`;
+            }
+            html[0].querySelector(`.message-sender`).innerText = `${sender}${pronoun}`;        
+        }        
+    },
+
     grabSavedSettings() {
         pronounsEnabled = game.settings.get("player-pronouns", "enabled");
         showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
         characterPronounsEnabled = game.settings.get("player-pronouns", "characterEnabled");
         showCharacterPronoun = game.settings.get("player-pronouns", "showCharacterPronoun");
         saveToGender = game.settings.get("player-pronouns", "saveToGender");
+        showPlayerPronounChat = game.settings.get("player-pronouns", "showPlayerPronounChat");
+        showCharacterPronounChat = game.settings.get("player-pronouns", "showCharacterPronounChat");
 
         listOfPronouns = game.settings.get("player-pronouns", "pronounsList");
         if (listOfPronouns?.length === 1) {
@@ -265,6 +287,7 @@ const PlayerPronouns = {
         Hooks.on("renderUserConfig", PlayerPronouns.onConfigRender);
         Hooks.on("closeUserConfig", PlayerPronouns.onConfigUpdate);     
         Hooks.on("renderPlayerList", PlayerPronouns.renderPlayerList);
+        Hooks.on("renderChatMessage", PlayerPronouns.renderChatMessage);
     },
 
     setupGenderVariable() {
@@ -334,6 +357,15 @@ function registerPlayerPronounsSettings() {
         config: true,
     });
 
+    game.settings.register("player-pronouns", "showPlayerPronounChat", {
+        name: game.i18n.localize("PPRN.ShowPlayerPronounChat.Name"),
+        hint: game.i18n.localize("PPRN.ShowPlayerPronounChat.Hint"),
+        scope: "world",
+        type: Boolean,
+        default: false,
+        config: true,
+    });
+
     game.settings.register("player-pronouns", "characterEnabled", {
         name: game.i18n.localize("PPRN.CharacterEnabled.Name"),
         hint: game.i18n.localize("PPRN.CharacterEnabled.Hint"),
@@ -346,6 +378,15 @@ function registerPlayerPronounsSettings() {
     game.settings.register("player-pronouns", "showCharacterPronoun", {
         name: game.i18n.localize("PPRN.ShowCharacterPronoun.Name"),
         hint: game.i18n.localize("PPRN.ShowCharacterPronoun.Hint"),
+        scope: "world",
+        type: Boolean,
+        default: false,
+        config: true,
+    });
+
+    game.settings.register("player-pronouns", "showCharacterPronounChat", {
+        name: game.i18n.localize("PPRN.ShowCharacterPronounChat.Name"),
+        hint: game.i18n.localize("PPRN.ShowCharacterPronounChat.Hint"),
         scope: "world",
         type: Boolean,
         default: false,
