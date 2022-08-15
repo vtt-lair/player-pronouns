@@ -1,12 +1,12 @@
-let showPlayerList = false;
-let pronounsEnabled = false;
-let characterPronounsEnabled = false;
-let showCharacterPronoun = false;
-let saveToGender = false;
-let showPlayerPronounChat = false;
-let showCharacterPronounChat = false;
-let listOfPronouns = [];
-let systemDefinedGenderField = '';
+let pp_showPlayerList = false;
+let pp_pronounsEnabled = false;
+let pp_characterPronounsEnabled = false;
+let pp_showCharacterPronoun = false;
+let pp_saveToGender = false;
+let pp_showPlayerPronounChat = false;
+let pp_showCharacterPronounChat = false;
+let pp_listOfPronouns = [];
+let pp_systemDefinedGenderField = '';
 
 const defaultPronouns = [
     'She/Her',
@@ -130,10 +130,10 @@ const PlayerPronouns = {
 
     renderSelect(name, pronoun) {
         let input = `<input type="text" name="${name}" value="${pronoun}" data-dtype="String">`
-        if (listOfPronouns?.length) {
+        if (pp_listOfPronouns?.length) {
             input = `<select name="${name}-select" data-dtype="String">`;
             input += `<option value=" " ${(pronoun?.length === 0) ? 'selected' : ''}></option>`;
-            for (let pronounItem of listOfPronouns) {
+            for (let pronounItem of pp_listOfPronouns) {
                 input += `<option value="${pronounItem}" ${(pronounItem === pronoun) ? 'selected' : ''}>${pronounItem}</option>`;
             }
             input += `</select>`;
@@ -145,8 +145,8 @@ const PlayerPronouns = {
     onConfigRender(config, html) {
         PlayerPronouns.grabSavedSettings();
 
-        if (pronounsEnabled) {
-            const user = game.users.get(config.object.data._id);
+        if (pp_pronounsEnabled) {
+            const user = game.users.get(config.object.id);
             const pronoun = PlayerPronouns.getPronoun(user, 'pronoun');
             let input = PlayerPronouns.renderSelect('player-pronouns', pronoun);
 
@@ -160,8 +160,8 @@ const PlayerPronouns = {
         }
 
         const hasClaimedCharacter = html.find("button[name='release']");
-        if (characterPronounsEnabled && hasClaimedCharacter?.length) {
-            const user = game.users.get(config.object.data._id);
+        if (pp_characterPronounsEnabled && hasClaimedCharacter?.length) {
+            const user = game.users.get(config.object.id);
             const character = user.character;
             const pronoun = PlayerPronouns.getPronoun(character, 'character-pronoun');
             let input = PlayerPronouns.renderSelect('character-pronouns', pronoun);
@@ -179,38 +179,38 @@ const PlayerPronouns = {
         }
     },
 
-    onConfigUpdate(config, html) {
+    async onConfigUpdate(config, html) {
         PlayerPronouns.grabSavedSettings();
 
-        if (pronounsEnabled) {
+        if (pp_pronounsEnabled) {
             let pronoun = "";
-            if (listOfPronouns?.length) {
+            if (pp_listOfPronouns?.length) {
                 pronoun = html.find("select[name = 'player-pronouns-select']").children("option:selected").val();
             } else {
                 pronoun = html.find("input[name = 'player-pronouns']")[0].value;
             }            
 
-            const user = game.users.get(config.object.data._id);
-            user.update({'flags.player-pronouns.pronoun': pronoun});            
+            const user = game.users.get(config.object.id);
+            await user.update({'flags.player-pronouns.pronoun': pronoun});            
         }
 
         const hasClaimedCharacter = html.find("button[name='release']");
-        if (characterPronounsEnabled && hasClaimedCharacter?.length) {
+        if (pp_characterPronounsEnabled && hasClaimedCharacter?.length) {
             let pronoun = "";
-            if (listOfPronouns?.length) {
+            if (pp_listOfPronouns?.length) {
                 pronoun = html.find("select[name = 'character-pronouns-select']").children("option:selected").val();
             } else {
                 pronoun = html.find("input[name = 'character-pronouns']")[0].value;
             }            
 
-            const user = game.users.get(config.object.data._id);
-            const character = game.actors.get(user.data.character);
+            const user = game.users.get(config.object.id);
+            const character = game.actors.get(user.character.id);
             let data = {'flags.player-pronouns.character-pronoun': pronoun}
             
-            if (saveToGender) {
-                data[systemDefinedGenderField] = pronoun;
+            if (pp_saveToGender) {
+                data[pp_systemDefinedGenderField] = pronoun;
             }
-            character.update(data);
+            await character.update(data);
         }
     },
 
@@ -221,21 +221,23 @@ const PlayerPronouns = {
         
         for (let player of players) {
             let playerCharacterName = player.innerText;
-            const playerName = playerCharacterName.substring(0, playerCharacterName.indexOf('[')).trim();
+            const playerName = playerCharacterName
+                                .substring(0, playerCharacterName.indexOf('['))
+                                .trim();                
             
-            const userId = game.users.find((x) => x.data.name === playerName)?.id;
+            const userId = game.users.find((x) => x.name === playerName)?.id;
             const user = game.users.get(userId);
             let pronoun = `(${PlayerPronouns.getPronoun(user, 'pronoun')})`;
-            let characterPronoun = (user.isGM) ? "" : `(${PlayerPronouns.getPronoun(game.actors.get(user.data.character), 'character-pronoun')})`;
-            const charName = (user.isGM) ? "GM" : user.charname;
+            let characterPronoun = (user.isGM) ? "" : `(${PlayerPronouns.getPronoun(game.actors.get(user.character.id), 'character-pronoun')})`;
+            const charName = (user.isGM) ? "GM" : user.character.name;
 
             pronoun = (!pronoun || pronoun === "()" || pronoun === "( )") ? "" : pronoun;
             characterPronoun = (!characterPronoun || characterPronoun === "()" || characterPronoun === "( )") ? "" : characterPronoun;
 
-            if (!pronounsEnabled || (pronounsEnabled && !showPlayerList)) {
+            if (!pp_pronounsEnabled || (pp_pronounsEnabled && !pp_showPlayerList)) {
                 pronoun = "";
             }
-            if (!characterPronounsEnabled || (characterPronounsEnabled && !showCharacterPronoun)) {
+            if (!pp_characterPronounsEnabled || (pp_characterPronounsEnabled && !pp_showCharacterPronoun)) {
                 characterPronoun = "";
             }
             
@@ -255,9 +257,9 @@ const PlayerPronouns = {
         let pronoun = '';
 
         if (sender) {
-            if (chatMessage?.data?.speaker?.actor && showCharacterPronounChat) {
-                pronoun = `${PlayerPronouns.getPronoun(game.actors.get(chatMessage?.user?.data?.character), 'character-pronoun')}`.trim();
-            } else if (showPlayerPronounChat) {
+            if (chatMessage?.speaker?.actor && pp_showCharacterPronounChat) {
+                pronoun = `${PlayerPronouns.getPronoun(game.actors.get(chatMessage?.user?.character?.id), 'character-pronoun')}`.trim();
+            } else if (pp_showPlayerPronounChat) {
                 pronoun = `${PlayerPronouns.getPronoun(chatMessage?.user, 'pronoun')}`.trim();
             }
             
@@ -269,17 +271,17 @@ const PlayerPronouns = {
     },
 
     grabSavedSettings() {
-        pronounsEnabled = game.settings.get("player-pronouns", "enabled");
-        showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
-        characterPronounsEnabled = game.settings.get("player-pronouns", "characterEnabled");
-        showCharacterPronoun = game.settings.get("player-pronouns", "showCharacterPronoun");
-        saveToGender = game.settings.get("player-pronouns", "saveToGender");
-        showPlayerPronounChat = game.settings.get("player-pronouns", "showPlayerPronounChat");
-        showCharacterPronounChat = game.settings.get("player-pronouns", "showCharacterPronounChat");
+        pp_pronounsEnabled = game.settings.get("player-pronouns", "enabled");
+        pp_showPlayerList = game.settings.get("player-pronouns", "showPlayerList");
+        pp_characterPronounsEnabled = game.settings.get("player-pronouns", "characterEnabled");
+        pp_showCharacterPronoun = game.settings.get("player-pronouns", "showCharacterPronoun");
+        pp_saveToGender = game.settings.get("player-pronouns", "saveToGender");
+        pp_showPlayerPronounChat = game.settings.get("player-pronouns", "showPlayerPronounChat");
+        pp_showCharacterPronounChat = game.settings.get("player-pronouns", "showCharacterPronounChat");
 
-        listOfPronouns = game.settings.get("player-pronouns", "pronounsList");
-        if (listOfPronouns?.length === 1) {
-            listOfPronouns = listOfPronouns.flat();
+        pp_listOfPronouns = game.settings.get("player-pronouns", "pronounsList");
+        if (pp_listOfPronouns?.length === 1) {
+            pp_listOfPronouns = pp_listOfPronouns.flat();
         }
     },
 
@@ -295,15 +297,15 @@ const PlayerPronouns = {
             case 'dnd5eJP':
             case 'dnd5e':
             case 'sw5e':
-                systemDefinedGenderField = 'data.details.gender';
+                pp_systemDefinedGenderField = 'system.details.gender';
                 break;
 
             case 'pf2e':
-                systemDefinedGenderField = 'data.details.gender.value';
+                pp_systemDefinedGenderField = 'system.details.gender.value';
                 break;
 
             default:
-                systemDefinedGenderField = 'data.details.gender';
+                pp_systemDefinedGenderField = 'system.details.gender';
         }
     }
 }
