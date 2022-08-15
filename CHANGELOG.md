@@ -1,3 +1,7 @@
+# 0.2.0
+
+* fix v10 compatibility
+
 # 0.1.8
 
 * Add setting to allow pronouns to be displayed next to players and actors names in the chatbox
