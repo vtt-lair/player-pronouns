@@ -1,3 +1,7 @@
+# 0.2.1
+
+* Fix Pronoun Setup - thanks @Paukler for the investigation
+
 # 0.2.0
 
 * fix v10 compatibility
