@@ -19,6 +19,7 @@ const defaultPronouns = [
 class PronounsSetup extends FormApplication {
     pronounsList = {};
     clickEvent = false;
+    title = `${game.i18n.localize("PPRN.PronounsSetup.Heading")}`;
 
     static get defaultOptions() {
         const options = super.defaultOptions;
