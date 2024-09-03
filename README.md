@@ -3,6 +3,8 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N36ZSPQ)
 
+**This will probably not be fully support for v12 onwards as the system now has it's own Pronouns for users, if there is enough interest I will consider looking at upgrading it for 12**
+
 # Player Pronouns
 Add the functionality to manually set a player's pronouns via the Player Configuration menu (accessed by right clicking on a player's name in the player list).
 
